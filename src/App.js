@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import "./app.css";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+export const App = () => {
+	const [showWidget, setShowWidget] = useState(true);
 
-export default App;
+	const widgetToggle = () => {
+		showWidget ? setShowWidget(false) : setShowWidget(true);
+	};
+
+	useEffect(() => {
+		setShowWidget(JSON.parse(window.localStorage.getItem("showWidget")));
+	}, []);
+
+	useEffect(() => {
+		window.localStorage.setItem("showWidget", showWidget);
+	}, [showWidget]);
+
+	return (
+		<div className="app">
+			<button
+				className="button"
+				onClick={() => widgetToggle()}>
+				{showWidget ? "Скрыть виджет" : "Показать виджет"}
+			</button>
+			<div
+				style={{ display: showWidget ? "block" : "none" }}
+				class="elfsight-app-579689c2-a61d-4c2c-bb80-01f9fbfe4cca"
+				data-elfsight-app-lazy></div>
+		</div>
+	);
+};
